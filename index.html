@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where in the World is Paul LePage?</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { font-size: 16px; }
+
+  body {
+    background: #0b0e2a;
+    color: #d4c84a;
+    font-family: 'Press Start 2P', monospace;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 10px 0;
+    overflow-x: hidden;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0px, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 3px);
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  #game {
+    width: 1100px;
+    max-width: 98vw;
+    padding: 12px;
+  }
+
+  /* ââ Title bar ââ */
+  .title-bar {
+    background: linear-gradient(90deg, #8b1a1a 0%, #b8342e 30%, #d44a2e 50%, #b8342e 70%, #8b1a1a 100%);
+    border: 3px solid #e07040;
+    padding: 14px 0;
+    text-align: center;
+    margin-bottom: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.5);
+  }
+
+  .title-bar h1 {
+    font-size: 18px;
+    color: #ffe066;
+    text-shadow: 2px 2px 0 #000, 3px 3px 0 rgba(0,0,0,0.3);
+    line-height: 1.9;
+    margin: 0;
+  }
+
+  .title-bar .sub {
+    font-size: 11px;
+    color: #ffb366;
+    margin-top: 6px;
+  }
+
+  /* ââ Panels ââ */
+  .panel-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .panel {
+    border: 3px solid #2a7a9e;
+    background: #0f1535;
+    padding: 16px;
+    position: relative;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    flex: 1;
+  }
+
+  .panel.narrow { flex: 0 0 250px; }
+  .panel.wide { flex: 1; }
+  .panel.map-panel { flex: 0 0 280px; min-height: 240px; }
+
+  .panel-label {
+    position: absolute;
+    top: -1px;
+    left: 10px;
+    background: #2a7a9e;
+    color: #0b0e2a;
+    font-size: 10px;
+    padding: 4px 10px;
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+
+  /* ââ Dossier ââ */
+  .dossier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-top: 20px;
+  }
+
+  .dossier-img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    border: 3px solid #d44a2e;
+    box-shadow: 0 0 10px rgba(212,74,46,0.4);
+  }
+
+  .dossier-info {
+    font-size: 10px;
+    color: #5ab8b8;
+    line-height: 2.6;
+    text-align: center;
+  }
+
+  .dossier-info .val { color: #d4c84a; }
+  .dossier-info .alert { color: #d44a2e; }
+
+  .wanted-stamp {
+    font-size: 20px;
+    color: #d44a2e;
+    letter-spacing: 8px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+    margin-bottom: 8px;
+  }
+
+  /* ââ Florida map ââ */
+  .map-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 22px;
+  }
+
+  .florida-img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    border: 2px solid #2a7a9e;
+    box-shadow: 0 0 10px rgba(42,122,158,0.3);
+  }
+
+  .map-caption {
+    font-size: 10px;
+    color: #d44a2e;
+    margin-top: 10px;
+    text-align: center;
+    line-height: 2;
+  }
+
+  /* ââ Clues ââ */
+  .intel-panel { padding-top: 22px; }
+
+  .clue-text {
+    font-size: 11px;
+    line-height: 2.4;
+    color: #5ab8b8;
+    margin-bottom: 16px;
+    padding-left: 16px;
+    text-indent: -16px;
+  }
+
+  .clue-text .bullet { color: #d44a2e; }
+
+  /* ââ Answer buttons ââ */
+  .choices-panel { padding-top: 22px; }
+
+  .location-btn {
+    display: block;
+    width: 100%;
+    padding: 16px 18px;
+    margin: 8px 0;
+    background: #0b0e2a;
+    color: #d4c84a;
+    border: 3px solid #2a7a9e;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.12s;
+    line-height: 1.6;
+  }
+
+  .location-btn:hover {
+    background: #2a7a9e;
+    color: #0b0e2a;
+    border-color: #5ab8b8;
+  }
+
+  .location-btn.correct {
+    background: #d4c84a;
+    color: #0b0e2a;
+    border-color: #d4c84a;
+  }
+
+  .location-btn.wrong {
+    background: #8b1a1a;
+    color: #ffcccc;
+    border-color: #d44a2e;
+  }
+
+  .location-btn.maine-wrong {
+    background: #d44a2e;
+    color: #0b0e2a;
+    border-color: #e07040;
+  }
+
+  /* ââ Results ââ */
+  .result-text {
+    font-size: 11px;
+    line-height: 2.2;
+    margin: 14px 0;
+    padding: 14px;
+    border: 2px dashed;
+  }
+
+  .result-text.correct { color: #d4c84a; border-color: #d4c84a; background: rgba(212,200,74,0.06); }
+  .result-text.wrong { color: #e07070; border-color: #d44a2e; background: rgba(212,74,46,0.06); }
+  .result-text.maine { color: #e07040; border-color: #e07040; background: rgba(224,112,64,0.06); }
+
+  /* ââ Buttons ââ */
+  .next-btn, .start-btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: #8b1a1a;
+    color: #ffe066;
+    border: 3px solid #d44a2e;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.12s;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+  }
+
+  .next-btn:hover, .start-btn:hover {
+    background: #d44a2e;
+    border-color: #ffe066;
+  }
+
+  /* ââ Bottom bar ââ */
+  .bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 3px solid #2a7a9e;
+    background: #0f1535;
+    padding: 12px 20px;
+    margin-top: 6px;
+  }
+
+  .score-item {
+    font-size: 11px;
+    color: #5ab8b8;
+  }
+
+  .score-item .val { color: #d4c84a; }
+
+  /* ââ Intro ââ */
+  .intro-text {
+    font-size: 11px;
+    line-height: 2.4;
+    color: #5ab8b8;
+    text-align: left;
+  }
+
+  .intro-text .hl { color: #d4c84a; }
+  .intro-text .warn { color: #d44a2e; }
+
+  .blink { animation: blink 1s step-start infinite; }
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+  /* ââ End screen ââ */
+  .stat-line {
+    font-size: 11px;
+    color: #5ab8b8;
+    margin: 12px 0;
+    line-height: 2.2;
+    text-align: left;
+    padding: 8px 14px;
+    border-bottom: 1px solid rgba(42,122,158,0.2);
+  }
+
+  .stat-line .val { color: #d4c84a; }
+
+  .epilogue {
+    font-size: 11px;
+    color: #e07040;
+    line-height: 2.2;
+    margin: 16px 0;
+    padding: 16px;
+    border: 2px solid #d44a2e;
+    background: rgba(212,74,46,0.05);
+    text-align: left;
+  }
+
+  .disclaimer {
+    font-size: 7px;
+    color: #1a3a5a;
+    margin-top: 12px;
+    line-height: 2;
+    text-align: center;
+  }
+
+  .globe-bar {
+    height: 4px;
+    background: linear-gradient(90deg, #0b0e2a, #2a7a9e, #5ab8b8, #2a7a9e, #0b0e2a);
+    margin: 3px 0;
+  }
+
+  @media (max-width: 800px) {
+    .panel-row { flex-direction: column; }
+    .panel.narrow, .panel.map-panel { flex: unset; }
+  }
+</style>
+</head>
+<body>
+<div id="game"></div>
+
+<script>
+const PORTRAIT_SRC = 'data:image/png;base64,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';
+const FLORIDA_SRC = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAIAAAAiOjnJAAAEhElEQVR4nO3dv44VdRjH4RlzLgF1t+AOTLSzo1ZESSwMMSqBxIICMNEGbgA1mqxYYGLiX0KMHfFfT0dn4R3QeAkm4q4FyM6J88ueOTvfmXNmnqdalrOzw+6Hlzcz5yx1tYOpgr49NfYJME3CIkJYRCzGPgGyDn68tfbH1m+sv3+bWEQIiwhhEVG7jrWek/d+7vT4B6fOhM7kkeIu9dwxDvpH+7tX2b1MLCKERYSwiHAd6z/v/dT67pOv170cvrSTRXav4+xVpeMU9q0SE4sIYREhLCI2e8dq7D197Tpl6eP3b+naVV97VUnj+M3PW7qmZWIRISwihEVEbztW13tnq9m+vaer5tctfT9xSCYWEcIiQlhErLRjZfYnpszEIkJYRAiLiEX17MPW33jxh18Pf/HPQGczcw4K34uNVjhnE4sIYREhLCKK17Hunzs95HkMZml3nJLmc9ITz83ynHc2gbCIEBYRm/2c94DS7riNu1d9+d0nbx98/uUon7fExCJCWEQIi4jZ7Vglzd1ra/atxusul/aews+hODj759HHLP1MrBX2qiYTiwhhESEsIurq+W7/ds7NWPtW4l7tKte6uu5SKSYWEcIiQlhEuI41I33tT6swsYgQFhHCIqK8YxXuN1V7r3Z7zJbb2T8Y+xS2kolFhLCIEBYR5R2rsCe9/dfh/abv99xnpJ2JRYSwiBAWEcIiQlhECIsIYREhLCKERYSwiBAWEV5XeISzd34Z+xSqu2++MvYpdGZiESEsIoRFhNcVttiEvWrbmVhECIsIYRFhx2qxuz/+f9D4xVuvdfuA5ms8S6/rXOUxPTGxiBAWEcIiYlGdODH2OWyES5/dGPsUlnX9vty+0PjYYzymJyYWEcIiQlhECIsIYREhLCKERYR7hY/dunrtydsbd01rC5lYRAiLCGERYcdq0dy3Ll//aO3j3Lyy3/r+Kzen//d5+n9CRiEsIoRFhB3rCLv77XvSKm7sdTvm9Q+vtb5/G5lYRAiLCGERISwihEWEsIgQFhHCIkJYRAiLCGERISwihEWEsIgQFhHCIkJYRAiLCGER4TnvI5vS89ybTCwihEWEsIiwYx1hZ/2XFc6aiUWEsIgQFhHCIkJYRAiLCGER4TrWCC5+PM37g00mFhHCIkJYRCyqp/4e+xw2zlcXPsl+ghl8zU0sIoRFhLCIcB1rIBe//mDsUxiUiUWEsIgQFhHCIkJYRAiLCGER4TrWY7+db9wf7Om1hC9/O69rV00mFhHCIkJYRNixejbnvarJxCJCWEQIi4hZ71hL166OwV71fyYWEcIiQlhEzG7HslcNw8QiQlhECIuIRVXtjn0Og6rrbo9/6ZtPMycycSYWEcIiQlhEzOI61u/vvH/4i8Lz2V/4zi7VJxOLCGERISwiJrtjLe1VDXapYZhYRAiLCGERUVfn7Bz0z8QiQlhECIsIYREhLCKERYSwiBAWEcIqQlhECIsIYREhLCKERYSwiFhUzzwc+xyYIBOLCGERISwihEWEsIgQFhHCIkJYRAiLCGERISwi/gWzx41DEVV6hgAAAABJRU5ErkJggg==';¥'¤S%UG4TçÕ4¦t¦t&´$ÕtÖwÔTÔT6dæ4£uUGT6Tå6ãVgCEb÷fæ$órµD´Ã4ÄdöätvtEtt$'FE¤Te#sV¤G5#óóWe6´¶æä4¶¦3ÔVtvÇd§6BôgU&óe¦4wT$TåtÔSD§£&¶feCT%T%GV¥$¶ç&vvvÓ#G$cCgrö7C£U$öwµ6tÔ·TÕ3f3g%C&¥B÷vÔÔuWD6ÕwÄ6µ%ö%%Dä$¶6ôöVd'¥v'Tv4£uçFF67³DW¤DTäE5u¤DÔÕ3U$öd2µ¦¤óve%&GfTSSu¦w÷7Å#wtõuVf÷öUô5SeÃb·6Ô4×tE$ÔuW§§cvÅGctGC$VÄeFµ7UÔ42s°¦6öç7BdÄõ$Dõ5$2ÒvFF¦ÖvR÷æs¶&6ScBÆd$õ's´vvôå5VUVtÖtD4ö¦ä¤VVÄUe#Fäó6GcCEfE&¤E&Ç¤ÆtcB´õDÅ7¦ó¤U57tÔÕ7'4ÔäTv&t×tÆ´ÔdfeCFãE#5T¶ÓGDgÓd£VTõGffÕæÖçFÇ$÷§r³dÇ¦7£WE÷w#Cæe¤ÔS44´¥$7¤utwFãcFf$Ò·7c2¶%tUvUdsv§%vV²öB³weCD#fdöÓv¶¶TSGwGg³wE&#ÔÄ4´U%7vCg¢÷böECcw÷cs7g%5E%cB·gTÕS4SG4$VÄ4&SGtCuGÃfU6"¶æecueVæ¢´Ó5swÕ¥t$7vUdV'§Es7FçÒ·fW#WF7FeC45tV4ÆW$Å&¥¦eç7¤T´¥$ÆUtÕs36§bôv7¦7sD³3GTåf¦äSG4$VÄ4´³tVç§3T´Õ¦ÖÃ6ä¤ÆÖ3G£7ä3&v$4T%&Òó&3DE3w&çSC¶Cæ'÷UVöãvdW4¤5tUF¥£ufvÇ¦C&öGW7VÂöWw2¶ôF£sSÅ×$%'FvU4W4W'µsröG3tåuEsFÃwD·FSgWSU4µ5tV4ÆWTC37ECg7w5uf4³Tãcw#5£w¤¦&#%C·3&¶öÄfÄ4T%#U#''46SöFfö'cç£$¥%7v$tV4ÆT44$VÄ4´U%7v$tUcUT7¦C3E¢·7S"²´×eDu¦U4W4õ$fæ5gGFWew&&ÕfT44$f'W¢ò¶cCGgWfFgTV×33b÷%õWDw$tV4ÄvDôD$õwU3RöDu5VÆågG³¥§Ô§tV4ÆT44$VÄ4´U%#vöGVç'GG6&C$3VÅ$Ä4tU%6GG4ÆÂòöó6£4Ç2÷"´·¦VâòöCR¶ã5&W4õ$f#7$4Çcsue4¶Ów6EGfÓ·gF#RôsVÅ$Ä4tU$7vUtW4uf4´¥$Ä4tU$7vUtW4uf4´¥$Ä4tU#EFçdWe3%D7vUtW4u¢ó%f3fUtW4uf4´¥$Ä4tU#EG%t43RµÓ3vsÔf4´¥$7óFR·s'¦Æ56Â¶vÃ¥S4õ$fÄ44#$&RòöÔG5WVUtW4uf4´¥$Ä4tU#EG%ur¶F#vctöÓ3ôóc%cÔf4´¥$æV¦&çf$§4¤5tUF£sÃcd÷ucsgtV4ÆW¤st6Æ4çsÆT4T%eF¦ãösg'&&óóe§E×755tV4ÆW¤ôcR÷gdóFÇ£%bóG¦ud§ôÄ4tU$7v§'F¤ÆSdE¦$Ä4tU%Uffãt'££ÆT44$VÄ4´U%7v$tV4ÆT44$VÄ4´U%7vfW§§v2·$ôÄ4tU$7vUtW4uf4´¥$Ä4tU$7vöuw§CDUecft$¥%STW&´¦vvsÓÒs°ved complaining about property taxes while paying none.",
+      "TIPSTER SAYS: \"He's at the place with no state income tax. No, the warm one.\"",
+      "EVIDENCE: Credit card charges at a Boca Raton steakhouse. Three nights in a row."
+    ],
+    answer: "Florida",
+    locations: ["Maine", "Florida", "Vermont", "Connecticut"],
+    correctResponse: "That's right \u2014 Florida again. Our man loves the Sunshine State almost as much as he loves not being in Augusta.",
+    wrongResponse: "Wrong! Follow the tan lines, detective. And the complete lack of snow shovels.",
+    maineResponse: "Maine? We checked. The barbershop at his address says he hasn't been in for a trim in months. The car rental side of the business hasn't seen him either."
+  },
+  {
+    clues: [
+      "DECODED MESSAGE: \"The governor sends his regards from a state shaped like a gun.\"",
+      "AGENT NOTES: Subject seen arguing with an alligator about welfare policy.",
+      "GPS DATA: His phone pinged near a place called 'The Villages.' He fit right in."
+    ],
+    answer: "Florida",
+    locations: ["Florida", "Maine", "Texas", "Arizona"],
+    correctResponse: "Florida! Three for three! At this point we should just update his Wikipedia page.",
+    wrongResponse: "Nope! A state shaped like a gun? Alligators? Come on, detective \u2014 this isn't hard.",
+    maineResponse: "We sent an agent to the Edgecomb property. She came back with a fresh fade and a rental car agreement. No governor in sight."
+  },
+  {
+    clues: [
+      "INTERCEPTED EMAIL: Subject googling 'does Florida count as residency if you're governor of Maine'",
+      "FIELD INTEL: Target seen at a Jimmy Buffett tribute bar. He knew all the words.",
+      "HOT TIP: \"Look, I saw him at a Wawa. There are no Wawas in Maine.\""
+    ],
+    answer: "Florida",
+    locations: ["Maine", "New York", "Florida", "California"],
+    correctResponse: "It's always Florida, detective. ALWAYS. The man is more Floridian than Florida Man himself.",
+    wrongResponse: "Wrong answer! Here's a hint: it's always the same answer. It's ALWAYS the same answer.",
+    maineResponse: "Our agent drove to the address. It's still a barbershop. The barber says, and I quote: \"Governor who?\""
+  },
+  {
+    clues: [
+      "FINAL REPORT: Subject has been located. He's exactly where you think he is.",
+      "SURVEILLANCE PHOTO: Man in cargo shorts governing a state he does not appear to live in.",
+      "CLASSIFIED: His mail forwarding address is in a state that starts with 'F' and ends with 'lorida.'"
+    ],
+    answer: "Florida",
+    locations: ["Maine", "Florida", "Alaska", "Hawaii"],
+    correctResponse: "Case closed. Paul LePage was in Florida. Again. Still. Always. Forever.",
+    wrongResponse: "It's Florida. It was always Florida. Were you even reading the clues?",
+    maineResponse: "MAINE?! Detective, we have been over this. His Maine address is a BARBERSHOP that also rents CARS. The barber is starting to recognize our agents. This is embarrassing."
+  }
+];
+
+let currentRound = 0;
+let score = 0;
+let maineGuesses = 0;
+let answered = false;
+
+// âââ TITLE SCREEN âââ
+function renderTitleScreen() {
+  document.getElementById('game').innerHTML = `
+    <div class="title-bar">
+      <h1>WHERE IN THE WORLD IS<br>PAUL LePAGE?</h1>
+      <div class="sub">MAINE BUREAU OF MISSING GOVERNORS</div>
+    </div>
+    <div class="globe-bar"></div>
+
+    <div class="panel-row">
+      <div class="panel narrow">
+        <div class="panel-label">SUSPECT FILE</div>
+        <div class="dossier">
+          <div class="wanted-stamp">\u2605 WANTED \u2605</div>
+          <img src="${PORTRAIT_SRC}" class="dossier-img" width="160" height="200" alt="WANTED">
+          <div class="dossier-info">
+            NAME: <span class="val">PAUL R. LePAGE</span><br>
+            TITLE: <span class="val">GOVERNOR, MAINE</span><br>
+            RESIDENCE: <span class="alert">UNKNOWN</span><br>
+            MAINE STATUS: <span class="alert">MISSING</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel wide">
+        <div class="panel-label">MISSION BRIEFING</div>
+        <div class="intel-panel">
+          <div class="intro-text">
+            THE YEAR IS 2026. MAINE'S GOVERNOR HAS GONE MISSING. WELL, NOT MISSING EXACTLY &mdash; EVERYONE KNOWS WHERE HE IS. HE'S JUST... NOT IN MAINE.<br><br>
+            YOUR MISSION: <span class="hl">TRACK DOWN GOVERNOR PAUL LePAGE</span> USING CLUES FROM OUR FIELD AGENTS.<br><br>
+            <span class="warn">WARNING:</span> HIS OFFICIAL MAINE RESIDENCE IS ALSO A <span class="warn">BARBERSHOP</span> AND A <span class="warn">CAR RENTAL AGENCY</span>. WE ARE NOT MAKING THIS UP.<br><br>
+            DIFFICULTY: <span class="hl">EXTREMELY EASY</span><br>
+            <span style="color:#2a7a9e">(HE'S IN FLORIDA. HE'S ALWAYS IN FLORIDA.)</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel map-panel">
+        <div class="panel-label">LAST KNOWN LOCATION</div>
+        <img src="${FLORIDA_SRC}" class="florida-img" width="220" height="220" alt="Florida">
+        <div class="map-caption">TRACKING SIGNAL DETECTED<br><span class="blink">\u25bc FLORIDA \u25bc</span></div>
+      </div>
+    </div>
+
+    <div class="globe-bar"></div>
+    <div class="bottom-bar" style="justify-content:center;">
+      <button class="start-btn blink" onclick="startGame()">[ BEGIN INVESTIGATION ]</button>
+    </div>
+  `;
+}
+
+function startGame() {
+  currentRound = 0; score = 0; maineGuesses = 0; answered = false;
+  renderRound();
+}
+
+// âââ GAME ROUND âââ
+function renderRound() {
+  answered = false;
+  const round = ROUNDS[currentRound];
+  const cluesHTML = round.clues.map(c => `<div class="clue-text"><span class="bullet">\u25ba</span> ${c}</div>`).join('');
+  const buttonsHTML = round.locations.map(loc =>
+    `<button class="location-btn" onclick="guess('${loc}', this)">\u25b8 ${loc.toUpperCase()}</button>`
+  ).join('');
+
+  document.getElementById('game').innerHTML = `
+    <div class="title-bar">
+      <h1>WHERE IN THE WORLD IS PAUL LePAGE?</h1>
+    </div>
+    <div class="globe-bar"></div>
+
+    <div class="panel-row">
+      <div class="panel narrow">
+        <div class="panel-label">SUSPECT</div>
+        <div class="dossier">
+          <img src="${PORTRAIT_SRC}" class="dossier-img" width="150" height="188" alt="Subject">
+          <div class="dossier-info">
+            NAME: <span class="val">LePAGE, PAUL</span><br>
+            TITLE: <span class="val">GOV. OF MAINE</span><br>
+            IN MAINE: <span class="alert">NO</span><br>
+            STATUS: <span class="alert">AT LARGE</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel wide">
+        <div class="panel-label">FIELD INTELLIGENCE \u2014 ROUND ${currentRound + 1}</div>
+        <div class="intel-panel">
+          ${cluesHTML}
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-row">
+      <div class="panel map-panel">
+        <div class="panel-label">TRACKING MAP</div>
+        <img src="${FLORIDA_SRC}" class="florida-img" width="200" height="200" alt="Florida">
+        <div class="map-caption">SIGNAL STRONG<br>SOMEWHERE WARM...</div>
+      </div>
+      <div class="panel wide choices-panel" id="answer-area">
+        <div class="panel-label">DEPLOY AGENTS TO</div>
+        ${buttonsHTML}
+      </div>
+    </div>
+
+    <div class="globe-bar"></div>
+    <div class="bottom-bar">
+      <div class="score-item">SCORE: <span class="val">${score}/${ROUNDS.length}</span></div>
+      <div class="score-item">ROUND: <span class="val">${currentRound + 1}/${ROUNDS.length}</span></div>
+      <div class="score-item">MAINE GUESSES: <span class="val">${maineGuesses}</span></div>
+    </div>
+  `;
+}
+
+function guess(location, btn) {
+  if (answered) return;
+  answered = true;
+  const round = ROUNDS[currentRound];
+  const buttons = document.querySelectorAll('.location-btn');
+
+  buttons.forEach(b => {
+    b.style.pointerEvents = 'none';
+    if (b.textContent.includes(round.answer.toUpperCase())) b.classList.add('correct');
+  });
+
+  let resultHTML = '';
+  if (location === round.answer) {
+    score++;
+    btn.classList.add('correct');
+    resultHTML = `<div class="result-text correct">${round.correctResponse}</div>`;
+  } else if (location === 'Maine') {
+    maineGuesses++;
+    btn.classList.add('maine-wrong');
+    resultHTML = `<div class="result-text maine">\ud83c\udfe0\u2702\ufe0f\ud83d\ude97 ${round.maineResponse}</div>`;
+  } else {
+    btn.classList.add('wrong');
+    resultHTML = `<div class="result-text wrong">${round.wrongResponse}</div>`;
+  }
+
+  const answerArea = document.getElementById('answer-area');
+  const nextLabel = currentRound < ROUNDS.length - 1 ? '[ NEXT LEAD ]' : '[ CLOSE CASE ]';
+  answerArea.innerHTML += `
+    ${resultHTML}
+    <div style="text-align:center; margin-top:10px;">
+      <button class="next-btn" onclick="nextRound()">${nextLabel}</button>
+    </div>
+  `;
+}
+
+function nextRound() {
+  currentRound++;
+  if (currentRound >= ROUNDS.length) renderEndScreen();
+  else renderRound();
+}
+
+// âââ END SCREEN âââ
+function renderEndScreen() {
+  let rating, ratingColor;
+  if (score === 5) { rating = "MASTER DETECTIVE"; ratingColor = "#d4c84a"; }
+  else if (score >= 3) { rating = "COMPETENT GUMSHOE"; ratingColor = "#5ab8b8"; }
+  else { rating = "MAYBE TRY GOOGLE NEXT TIME"; ratingColor = "#d44a2e"; }
+
+  let maineComment;
+  if (maineGuesses === 0) maineComment = "You never once guessed Maine. Smart. You're already more aware of his location than most of the state legislature.";
+  else if (maineGuesses === 1) maineComment = "You guessed Maine once. Understandable \u2014 it IS technically where he's governor. But you learned.";
+  else if (maineGuesses <= 3) maineComment = `You guessed Maine ${maineGuesses} times. Each time, our agents got another haircut at his address. They're running out of hair.`;
+  else maineComment = `You guessed Maine ${maineGuesses} times. Our agents have now gotten so many haircuts at his listed address that the barber considers them family. The Kia Sorento rental loyalty program has made them Gold Members.`;
+
+  document.getElementById('game').innerHTML = `
+    <div class="title-bar">
+      <h1>CASE CLOSED</h1>
+      <div class="sub">MAINE BUREAU OF MISSING GOVERNORS</div>
+    </div>
+    <div class="globe-bar"></div>
+
+    <div class="panel-row">
+      <div class="panel narrow">
+        <div class="panel-label">CASE RESOLVED</div>
+        <div class="dossier">
+          <div class="wanted-stamp" style="color:#1a6b4a;">FOUND</div>
+          <img src="${PORTRAIT_SRC}" class="dossier-img" width="160" height="200" alt="FOUND" style="border-color:#1a6b4a; box-shadow: 0 0 10px rgba(26,107,74,0.5);">
+          <div class="dossier-info">
+            NAME: <span class="val">LePAGE, PAUL</span><br>
+            LOCATED IN: <span class="val">FLORIDA</span><br>
+            SURPRISE: <span class="alert">0%</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel wide">
+        <div class="panel-label">FINAL REPORT</div>
+        <div style="padding-top:20px;">
+          <div class="stat-line">SCORE: <span class="val">${score} / ${ROUNDS.length}</span></div>
+          <div class="stat-line">RATING: <span style="color:${ratingColor}">${rating}</span></div>
+          <div class="stat-line">TIMES YOU GUESSED MAINE: <span class="val">${maineGuesses}</span></div>
+          <div class="epilogue">${maineComment}</div>
+          <div class="epilogue" style="color:#d44a2e; border-color:#8b1a1a;">
+            EPILOGUE: Governor LePage was eventually located at his Florida residence, where he has lived for most of his governorship. His official Maine address remains a fully operational barbershop and car rental agency. When reached for comment, the barber said: "Great tipper. When he's here. Which is never."
+          </div>
+        </div>
+      </div>
+      <div class="panel map-panel">
+        <div class="panel-label">FINAL POSITION</div>
+        <img src="${FLORIDA_SRC}" class="florida-img" width="220" height="220" alt="Florida">
+        <div class="map-caption">PERMANENTLY LOCATED<br>IN FLORIDA</div>
+      </div>
+    </div>
+
+    <div class="globe-bar"></div>
+    <div class="bottom-bar" style="justify-content:center; gap:24px;">
+      <button class="next-btn" onclick="renderTitleScreen()">[ PLAY AGAIN ]</button>
+    </div>
+    <div class="disclaimer">
+      A PUBLIC SERVICE GAME. ALL CLUES ARE SATIRICAL.<br>
+      ANY RESEMBLANCE TO AN ACTUAL GOVERNOR WHO DOESN'T LIVE IN HIS STATE IS ENTIRELY INTENTIONAL.
+    </div>
+  `;
+}
+
+renderTitleScreen();
+</script>
+</body>
+</html>
