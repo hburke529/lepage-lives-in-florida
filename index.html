@@ -38,7 +38,7 @@
     padding: 12px;
   }
 
-  /* ── Title bar ── */
+  /* ââ Title bar ââ */
   .title-bar {
     background: linear-gradient(90deg, #8b1a1a 0%, #b8342e 30%, #d44a2e 50%, #b8342e 70%, #8b1a1a 100%);
     border: 3px solid #e07040;
@@ -62,7 +62,7 @@
     margin-top: 6px;
   }
 
-  /* ── Panels ── */
+  /* ââ Panels ââ */
   .panel-row {
     display: flex;
     gap: 6px;
@@ -94,7 +94,7 @@
     font-weight: bold;
   }
 
-  /* ── Dossier ── */
+  /* ââ Dossier ââ */
   .dossier {
     display: flex;
     flex-direction: column;
@@ -128,7 +128,7 @@
     margin-bottom: 8px;
   }
 
-  /* ── Florida map ── */
+  /* ââ Florida map ââ */
   .map-panel {
     display: flex;
     flex-direction: column;
@@ -152,7 +152,7 @@
     line-height: 2;
   }
 
-  /* ── Clues ── */
+  /* ââ Clues ââ */
   .intel-panel { padding-top: 22px; }
 
   .clue-text {
@@ -166,7 +166,7 @@
 
   .clue-text .bullet { color: #d44a2e; }
 
-  /* ── Answer buttons ── */
+  /* ââ Answer buttons ââ */
   .choices-panel { padding-top: 22px; }
 
   .location-btn {
@@ -209,7 +209,7 @@
     border-color: #e07040;
   }
 
-  /* ── Results ── */
+  /* ââ Results ââ */
   .result-text {
     font-size: 11px;
     line-height: 2.2;
@@ -222,7 +222,7 @@
   .result-text.wrong { color: #e07070; border-color: #d44a2e; background: rgba(212,74,46,0.06); }
   .result-text.maine { color: #e07040; border-color: #e07040; background: rgba(224,112,64,0.06); }
 
-  /* ── Buttons ── */
+  /* ââ Buttons ââ */
   .next-btn, .start-btn {
     display: inline-block;
     padding: 14px 28px;
@@ -241,7 +241,7 @@
     border-color: #ffe066;
   }
 
-  /* ── Bottom bar ── */
+  /* ââ Bottom bar ââ */
   .bottom-bar {
     display: flex;
     justify-content: space-between;
@@ -259,7 +259,7 @@
 
   .score-item .val { color: #d4c84a; }
 
-  /* ── Intro ── */
+  /* ââ Intro ââ */
   .intro-text {
     font-size: 11px;
     line-height: 2.4;
@@ -273,7 +273,7 @@
   .blink { animation: blink 1s step-start infinite; }
   @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
 
-  /* ── End screen ── */
+  /* ââ End screen ââ */
   .stat-line {
     font-size: 11px;
     color: #5ab8b8;
@@ -384,69 +384,69 @@
 <div id="game"></div>
 
 <script>
-const PORTRAIT_SRC = 'data:image/png;base64,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';
-const FLORIDA_SRC = 'data:image/png;base64,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';
+const PORTRAIT_SRC = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAFACAIAAADcSDVdAAAYxklEQVR4nO2de3hV5ZXGTw6BkAu0OrTqUwK0KiEQIYZEFKpii6itVqSdMo+AcrFCRMfrjDLYi1ZEHekDiCIICoJtrSOFattRmT6KTQATYsBALlYLhFZ9ithKQsIlh/nDZ9Z6z7g/zt7nAjlZ7++vl+139t4np6vfWt+31voyVr+zNPR/5HfPDKUbkcgHopuPHBW9dNRDnuP3HNIxe2F8Kohz/imi71k+0XtM0WL9R8bpqo99GP+D8T4Orr6xr+hbbjlf9GOPbRa9fml1/O+QYu5Zfq3owrKBcd8nnIyXISRdoQEQ09AAiGnSz+n/f4TDZ4jO7/6B55j8Ht1FV7a0J+W56N9v2PyJ5xi8fn84Q3Ru4Zk6yOGvd8s8V3RHB3yvoLEBjodnYewXDuv1lPv9rvgk4Pfa+nStaMYAhMQJDYCYhgZATJP2MYCLgSW9vf/DxgNJuf+GLVn6Dx9+7Y+mrRE9f9OPReN6/Pple2M+9ze/nC560YK1qjctE31O9wdFd3R432fs14eIXvvEy96DfOwnJEQCex31VU1JeQXOAMQ0NABiGhoAMU2XigEwF6ip5lPRUWv/Cfi13bqd4Xk9ap0egWdt2Kz+7saVvxW9kye/IfrlFa953wd85ZyibNH3Pz1J9JHQX0Rnw5iWbd63xPss/pfN3oOC4vLpk5XjBGAe18HtbaJzhmZ7DXfCGYCYhgZATEMDIKbpUjHA6hkLRWPevy8cOTN4HdfUXfEAXu84+rbnmFumqq//GFw/u7hVdMNWjWHwfeqrGkX37bZPh9S+p68c8Y5JHl85VvSUc5/0HBOF628SlCT5/S52H2oWXRgKlhfEGYCYhgZATEMDIKbJjET5i/sn7UWSwcE6XQ921vsm4tdG+bLq67viAT/r3xgPzLqpv+hH7vq26N1te0S3bv+z6Lypw0RjbPDQ7WeJxnqJXy95SbSveuhk5QIlqQbARSPES4VlwT7LGYCYhgZATEMDIKZJ+30AXAM+WWDuTRvEIVH4iAcef2I36BWeY26+WXv4XHHOhaKnDl8veu+RuuO+73GB9/zuTVeKftFVM+D4bNBnpXqvwAVnAGIaGgAxDQ2AmCbtY4CW+vdFYx1w5caA/X/8+K4+xuQO/Zrox1fNFD15qNYBJ+L7Ll6sufsN1br2H7jPqeO7oN//SsVOzzFR+U6uWggXJ8nXd8EZgJiGBkBMQwMgpkn/GGC7xgDYI7Lvpv2e4xPxldH3RV8f86nuXnZJ3PePwoev7OpJ6uv+QN4w/S4Fw78ges1Sx56GixT4930dZ1Yk62wHzgDENDQAYhoaADFN2scAzVD768rD8VUb4MLhQ6Pfj4+9bHiR6Po6Xadfvf0+0euerBLtzLFJQV9OV25PyzaMo64Xfbe2Gw0tWrTJc3y6wxmAmIYGQExDAyCmiYoBsLdmupwZnJ+p71nv6IeTEI46YPT7S6A2d90q9e8LhmtuEtatuvx+9NFxPf7B6c95jh8+rVg0npk1t+pe0dUr/ls05vYMPk/3THa+pb328T3xuRHxQwpiANd6P+KK5SIR/Y2C9gnlDEBMQwMgpqEBENOkh6N/HPCsKGc9bpLAXp94ju9lo/S8rQemztcxkDu08m2tDXAxbmawpja331EuetLTM0Q/N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';
+const FLORIDA_SRC = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAcFBQYFBAcGBgYIBwcICxILCwoKCxYPEA0SGhYbGhkWGRgcICgiHB4mHhgZIzAkJiorLS4tGyIyNTEsNSgsLSz/2wBDAQcICAsJCxULCxUsHRkdLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCz/wAARCADcANwDASIAAhEBAxEB/8QAHAABAAIDAQEBAAAAAAAAAAAAAAYHBAUIAwIB/8QARRAAAQMDAgIGBgYIAgsAAAAAAQACAwQFEQYhEjEHE0FRcYEUIjJhkaEjM0JyscEVJFKSosLR0lOCRGJjZIOTsuHi8PH/xAAbAQEAAgMBAQAAAAAAAAAAAAAABAYDBQcBAv/EADIRAAIBAwIDBAoCAwEAAAAAAAABAgMEEQUxEiFBE2GBoQYVIlFxkbHR4fAUUjLB8UL/2gAMAwEAAhEDEQA/AObUU80t0Xz6isjLjLcRRB7iGxmHjJbtvnI5reDoTZ9q+nypv/Jaupq1nSk4SnzXc/sbGnpl1UipxjyfevuVOitsdCcH2r5J5U4/uX0OhSk7b1P/AMgf3LF67sv7+T+xk9UXf9fNfcqJFcI6Fbf23iqPhE3+q+h0LWvtutYfBjQvPXll/Z/Jnvqe7/r5opxFcw6F7P23Ou+DP6L6HQxY+24XA+bP7V8+vbP3v5M+vU117l8yl0V1DoZsHbXXL99n9qjOvOjmj01Y47jbZqqZrZQyYTOaeEHkRho7dvMLLR1i1rVFTi3l9xjq6VcUoOpJcl3ldoiLbmrCIiAIiIAiIgCIiAIveaiqqenhnnppooZwTE97CGyAfsk4/JeC8TT5o9aa3CIi9PAiIgCIiAvHS2oYoqWHqX9fRSYG3Nh2H/0KdrnzQM8jL1JHxu6rq+MszsSHDB+ZV8SXOmZbfTnScMRGRxbEk8hjvzsue6tadhWhHnkvGmXPbUsy5YMtFqrbeJK7gLqUsYW5fLnDGuydt+e2OSzJLlRQ/WVcLfdxg/gtRKmKL4cczaKpFrOTJRaxl7bNM70alnqYG7GSJufW7sd2FmU9YyofwiKeNwGcSRFvz5JKnKO6CnF7M90RFjPsLEu1thvFnqrdUfVVMZjJAyW9xHvBwfJZaL6jJxakt0eSipJp7Mp+XoVrxnqrxSv+9G5v9ViSdDV/b9XWW9//ABHj+VXWi3UddvFvJPwRqXo1q+j+ZRUnRJqhnsspJPuzj88LFk6MNWx8rWJPuTxn+ZX+iyr0huluovwf3MT0O2fV/P8ABztJ0faqi9qyVJ+7h34FYkukdRQ+3Y7gPCncfwC6UwnJZl6R1+sF5mJ6DS6SmkcwSWW6RfWe2sZ96Bw/JYr4JYvrIns+80hdVcR/aPxX4fW9rfx3WVekkutPz/BiegR6VPL8nKa32jrRHdtRQNqGh1NC5r5Wn7Y4gOHzXRElFSS/WUsD/vRNP5KIXqwSxawpqu3W4NgdSFkhgiDW8YkBGcduCfgsy11V4umo8LafPP8AwxPRnRkpuXEs7YJfUUVLVU/o9RSwzQjYRyRhzR5HZRS89F2nbpH+rU/6OmJB6yDOMd3CThTLmUHtDxVVo3Nag805NFkq29KssVIpnKkjDHI5h5tJBXytxqmzVdk1BUU9XF1TpHGVgyDlhccHbwWnXUac1UgpxeUznVSDhJxe6CIiyHwEREBu9KVMNBeRW1FU2nihbktcM9Z/q47R2nwW21DriW93amE800lupZBIGtAaZHDkcdgUORRJ2lOdXtZc3jC7iTG5nCn2Udt/iTOfpBc7aKgJA5dZKT8gFrp9b3SVpbE2CDPIsZkj4kqOovI2NCO0T2V5WlvInVs1zR08EcckdTC9o9Z7DxZPaeYO5yVJ7fryOdzWU934nHYMmHP94fmqeRRqulUKnP8AJIpalWp8jomDUz5YDFII4Kg7NlcCWeJA3H4Lb2+uZVUrC6aEzcnNa7tGy54t+qbnboTCyUTR4w0Sji4fAqyrBqWnqImPp3x1EbXBz4nN9Zh7xndp96rd7pEqKytjf2mpxqvDLJReFFWw19MJ4eLgJIw4YIIXuq4008M3qaaygiLBqbpStjnjjq4ROhhwHPwAcd/Jexi5PCPHJR3M5FUtB0g000vH+kJ6aZ3PrScHz3HxUrodXTvjDj1FXH+0w4PxGy2FbTa9LdEKlf0amzJeiwrZc4bnC58TXMcw4c13Me/wWatfKLi8MmxkpLKCIi+T6CIiAIiICo+mqi4a61Vwb9ZG+Fx+6QR/1FVerz6W7a+t0YKiNhc6jnbK7HYwgtJ+JaqMXQ9Dq9pZxXuyv9lG1enwXTfvwwiIt0akIiIAiIgCIiAIiIAsu21lRRV0b6eofAXENc5vdntHasRF8yipLDPYtxeUdEWK5QUlI5lROyNg9nJ3zk9nPkQvet1Zb6eL6N7nyPPCziHC0u81R82tLvI3hY+KH3sjBPzytTWXKsuEgfV1MkzmjA4jsPAKqx0Fznx1HgsktaUI8NNFlal6UHCE0tG5ssmMOMZwzPbk9vgNveoXVawuFZbJaSRkTTIOEyMBBx2jHLdaBFvKGnW9CKUYmorX1es8ykF6QVE1NJxwSvid3scQfkvNFPazyZCTxzRbWi9SmeGKrIzJF9HOwH2tubnz8cqzKWrhrIBNTyB7M4zjGD3LmS3XOqtVT19LJwuIw4EZDh3EK9tLXeGOBsEp4GzYkY4nbJA2KpWs6f2b7SHUtulXvaLgl0JWiIqwWEIiIAiEhrckgAdp5IvQYd3t7btZay3ucGiqhdFxEZ4SRgHyO65lrKSagrp6SobwTQPdG8dxBwV1MqS6XbJ6BqaO5RtxFcGZdj/EbgH4jhPxVm9Hrngqug9pc18V+PoV7XLfipqsun0f5IAiIrsVEIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCkum9UOtxbSVji+kOzXczH/Ue5RpFiq0YVo8E0ZKVWVKXFEv8AsGpmGNrZ6hstKW/RytHFj3ZHYpNTVtNWAmnmZLw8wOYXN1t1HcbVCIaeVpiBJDHsBAz81Y+kNVGeNk0cjeubw+kxNGAdz3qm3+jyp5qR2/dy12WqKpiEi0V4Vzat9HI2hkiiqTjgfK0uaN98gc9l6xyMmibJG7iY8BzT3hfSrafC8m+a4lgh9Vp11ReIaa83CpuAq4HiGRx6tkMzd8hjdvZORnO7SpJaKmeqtMEtSx0dQG8ErSMeu08Lj4EjI9xWtqK29V92q7fb20tEylLQ+omzI9wcMgtYMDv5nsK2VsoKaCF7Zq+prpZHcTpJyNjjGGgDDR7lsLicpUkqjWeWEu/4LCyscu4hUIRjUbpp455f/ebw8/MzFFukayfpvRdUGN4p6T9Zi7/V9oebc/AKUoQCCCMg7EFQ6FWVGpGpHdPJKrUlVpunLZnKaKY9JWl4tOaia+ji6qhrGdZE0cmOGzmjzwfNQ5dQt68binGrDZnO61GVCo6c90ERFnMIREQBERAEREAREQBERAEREAREQBERAFvNHyvj1HCGzNja9rmuB+2Mez45wtGtlp041HQn/ahYbhcVKS7mZqDxUi+9HSNuf1lspnlrWl0bThowBt2BZKx7fG6G200bvabG0H4LIXK5/wCTwdHj/ijU3ZzLVJLfBxPMdP1DoGjeYl46sZ7CHEj/ADFYhk1RSwOrqk2+ZjBxyUUMbg4NG5DZCd3Ae7BW3udCLlbJ6Qv6syN9V4GeBwILXeRAK1E9x1FUQOo4rH1VW9pY6pfO007c7F4x6x78YU6g+OCXst9c426b+O3PYhVlwyb5pdMZ38PDflub6GaOop454ncccrQ9ju8EZBX2sG0mkgoo7dTVcdQ6hjZE/hcCW4GBnHLOCs5QakeGTSJkJcUU2V/0xtB0lTuMIfiqAD+2Mlp+Rxj4Kk10dre1G86MuNK1vFKI+tjA58TPWA48Eea5xV49H6ilbOHVP6lP1um43Cl0aCIisRowiIgCIiAIiIAiIgCIiAIiIAiIgCIiAKQaIpRV6rpmkZ4Mu8+Q+ZUfU56KaXr9UGQj2A0fPP8AKod9Ps7acu4lWcOOvCPeXnjGw5DZFgUF3p6+R8TeKOaPPEx3cO0LOa5r2BzXBzXDIIOQQuYyjKLxJHQ4yUllH6ozq22mW2V1bUXSrbBHF9FSxkMj4+QBxu7LsDBPapMtbfYoHW9lTUiR0NFK2qcyMZ4+DfcdoHtf5VntKjp1otfvwMNzBTpNM09lfSt1DTxW21y0DWUr2VkZgMbWOyCwZ5OOeLcZ2KlSjs99rrvTyQ2K31D2yNLW11Qeoibn7Tcjid38lu6J88tBA+pi6qdzB1jO53b81lu4yeJyWHtjOX49fmY7ZxWYx59+MMwPfyyua9W2g2PVdwoA3hjZKXR7fYdu35ELpRV10v2FtXYobxFGOuonBkjgNzG4/k7H7xU7Q7rsLjgltLl49Pt4kLWLbtqHGt48/DqUwiIugFJCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAp/0ZVTKGSecOYZOsbxN5kMxgnHmVAFmWy61VoqTPSuaHEcLg4ZDh3FRbyg69GVNdSTa1lRqqo+hbl51RA7WLKS2uM1VO6OnAjbvh7fWcfDOD/2U9oKd1Jb4KdzuJ0bA0lV50U2F4jn1BWsbJUVYPVPcQXMGdzjs4u/u8VZSoGo9nTmqFPnw8m/e/wAF1seOpF1qn/rZe5Bfj2texzHtDmuBBB7QV+otYbEjolvFbWVNutxpbXS0Lmw9a7M0pbwgtLWnYDB2JzyWRaWT228VFtnrZ60SQtqo5Z3AuzngeNtgM8JA95XrcqGqZWC426oggqeARSMqAeqmbnLQcbrwJOCO8hfNpt9Y2vmuVyqoJ6uSMQsZTjEcTAc4GdySdyStjKcXSeyWNsc88uvnvjHLc18YSVRb5zv0x8PLbc26x6+ihuVuqKGoGYaiN0T/AAIxn81kItem4vKJ7Sawzly40M1sudTQ1AxLTyOjd4g4WMrF6YbJ6Jfae7xNxHWs4JCP8Rox824+BVdLqFncK5oRqrqvPqc6uqDt60qb6fToERFLIwREQBERAEREAREQBERAEREAREQBBgEEjI7kRAXJoK+R100E7IxA1xNO+MHIbtt+SshUDoCuMNdPTcWC4CVn3mn+h+SvCgu1PW0TqguEZjGZWn7Pv8Fz7WLbsq7cVyLvpdx2lH2nzM5F4U9bTVTi2CeOUtGSGnOF7rSNNcmbdNPmjxq6Omr6Z1PVwR1ELsZZI3IONxsoPV2Ohbe62zW+00stTKWzRzEHgpI3DDuLB7CMtb28XcFPl4U1FTUbp3U8LY3VEhllI5vce0qZbXUrdPDfcs8s+/8AdyLcW0azWUvj1x7j4oKQUFup6Rsj5RBGIw+Q5c7AxkrIRFElJybbJSSisIjuu7H+ntH1lMxvFPEOvh7+Ju+B4jI81zqurFR3SfY6Sg1cPQoGwMngbM9rNml5c4EgdnIclafR+84W7eXXmv8AZW9bteJKvH4MgiIiuRVQiIgCIiAIiIAiIgCIiAIiIAiIgCIiE+4J5aadk0LzHIw5a4cwVZuldWNrI+sLmxVUTT10Z9l7e0+Hf3Kr1+tc5py1xBwRsew81DurSFzHEtyVbXMreWVsdF6QkEtvlc0B0bnBzJAPaBGcfh8VIFBdD3ampbZTQCUmlkjYGOPJpAwcnyx5KdAgjI3BXOr2m4VpZL3aTU6SwERFDJQREQBVZ0n03W6mp3f7o0fxvVpqA68pRPfIHE/6OB/G5bTS58Fwn3M12ox4qGO8pFERdJKCEREAREQBERAEREAREQBERAEREAREQBERAb/TupZbXI2nm+kpHEDcn6PfmPdvuFeml6kzWsxOdkwuwPuncfmubFePRzcfSaOny7JmgDT95m35FVfXraPZ9rFfv7ksWjXEu07OTJ2iIqUW0IiIAovqemE1yiceyED+JylC1tzpxNUMcRyZj5lSLefBPJgrx4oYOZURF1U5uEREAREQBERAEREAREQBERAEREAREQBERAFN9EajgtdI6OarZTywyccZfyII3H/veoQij3FCNxDs5bGehWlQnxxL6tmsZKlzZTLDVU7jgmMAEfDt9xUxY9skbXscHNcMgjtC5nsN4fZrk2bd0L/VlYO1vf4hXppK5tnh9G6wPY5vWQnvB5gfj8VStV03+N7UNi26bf8A8j2ZbklREVfN2FG7nrGyW24y0tfVthljOAMZyO/45HktlqK7iw6crbmWhzqePiY08i4nDQfMhc211dU3Ktlq6uUyzynic49q32k6YrzinN4iuXiabU9Q/i4jBZb+hjoiK/lJCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAKwej68yP6uiD2Cop3gwl7vaBPLyPyKr5STQ9SyC9vieGh00ZDXHmCN8fAH4KDf01UoSTWxMsqjhWjjqXpR3aV9X6HWUr4J88ILQSx3mtooXUa9ZTsDZJqKIgYJfJknyytFc+k+OKEiOrbUF3qlkEeNjz3IVEjp1eq/YhguTv6NJe1LJsumGv9G0lBSA4dV1AyO9rRk/MtVJLb6ivsl8rWOHG2niiwxRuOcd58T+QWoV30y0dpbqnLfdlQ1C5VzXc1tsERFsiAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREB//2Q==';
 
 const ROUNDS = [
   {
     clues: [
-      "INFORMANT SAYS: Subject spotted buying sunscreen in bulk at a Publix. That's not a Maine thing.",
-      "FIELD REPORT: Suspect seen wearing flip-flops in January. Locals did not find this unusual.",
-      "INTERCEPTED CALL: \"Yeah, the golf course is great this time of year. Every time of year, actually.\""
+      "PUBLIC RECORDS: LePage spotted buying sunscreen in bulk at a Publix. That's not a Maine thing.",
+      "SOCIAL MEDIA: LePage seen wearing flip-flops in January. Locals did not find this unusual.",
+      "OVERHEARD AT A DINER: \"Yeah, the golf course is great this time of year. Every time of year, actually.\""
     ],
     answer: "Florida",
     locations: ["Maine", "Florida", "New Hampshire", "Massachusetts"],
-    correctResponse: "BINGO! He's in Florida. Shocking absolutely no one. Our agents found him at an early bird dinner at 4:15 PM.",
-    wrongResponse: "Nope. Come on, detective. Think sunshine. Think humidity. Think... not Maine.",
-    maineResponse: "HA! Maine?! Our agent went to his listed address and got a haircut and rented a Kia Sorento. He was not there."
+    correctResponse: "BINGO! He's in Florida. Shocking absolutely no one. Reportedly spotted at an early bird dinner at 4:15 PM.",
+    wrongResponse: "Nope. Think sunshine. Think humidity. Think... not Maine.",
+    maineResponse: "HA! Maine?! We checked his listed address and found a barbershop and a Kia rental agency. He was not there."
   },
   {
     clues: [
-      "SURVEILLANCE LOG: Subject observed complaining about property taxes while paying none.",
-      "TIPSTER SAYS: \"He's at the place with no state income tax. No, the warm one.\"",
-      "EVIDENCE: Credit card charges at a Boca Raton steakhouse. Three nights in a row."
+      "NEWS CLIP: LePage observed complaining about property taxes while paying none in Maine.",
+      "LOCAL GOSSIP: \"He's at the place with no state income tax. No, the warm one.\"",
+      "RECEIPT SPOTTED: Boca Raton steakhouse. Three nights in a row."
     ],
     answer: "Florida",
     locations: ["Maine", "Florida", "Vermont", "Connecticut"],
     correctResponse: "That's right \u2014 Florida again. Our man loves the Sunshine State almost as much as he loves not being in his district.",
-    wrongResponse: "Wrong! Follow the tan lines, detective. And the complete lack of snow shovels.",
-    maineResponse: "Maine? We checked. The barbershop at his address says he hasn't been in for a trim in months. The car rental side of the business hasn't seen him either."
+    wrongResponse: "Wrong! Follow the tan lines. And the complete lack of snow shovels.",
+    maineResponse: "Maine? We checked. The barbershop at his address says he hasn't been in for a trim in months. The car rental side of the building hasn't seen him either."
   },
   {
     clues: [
-      "DECODED MESSAGE: \"The candidate sends his regards from a state shaped like a gun.\"",
-      "AGENT NOTES: Subject seen arguing with an alligator about welfare policy.",
-      "GPS DATA: His phone pinged near a place called 'The Villages.' He fit right in."
+      "RUMOR MILL: \"The candidate sends his regards from a state shaped like a gun.\"",
+      "EYEWITNESS: LePage seen arguing with an alligator about welfare policy.",
+      "FUN FACT: His phone pinged near a place called 'The Villages.' He fit right in."
     ],
     answer: "Florida",
     locations: ["Florida", "Maine", "Texas", "Arizona"],
     correctResponse: "Florida! Three for three! At this point we should just update his Wikipedia page.",
-    wrongResponse: "Nope! A state shaped like a gun? Alligators? Come on, detective \u2014 this isn't hard.",
-    maineResponse: "We sent an agent to the Edgecomb property. She came back with a fresh fade and a rental car agreement. No governor in sight."
+    wrongResponse: "Nope! A state shaped like a gun? Alligators? Come on \u2014 this isn't hard.",
+    maineResponse: "We checked the Edgecomb property. Found a fresh fade and a rental car agreement. No former governor in sight."
   },
   {
     clues: [
-      "INTERCEPTED EMAIL: Subject googling 'do you have to live in a district to run for Congress there'",
-      "FIELD INTEL: Target seen at a Jimmy Buffett tribute bar. He knew all the words.",
+      "BROWSER HISTORY: Someone googling 'do you have to live in a district to run for Congress there'",
+      "SOCIAL MEDIA: LePage seen at a Jimmy Buffett tribute bar. He knew all the words.",
       "HOT TIP: \"Look, I saw him at a Wawa. There are no Wawas in Maine.\""
     ],
     answer: "Florida",
     locations: ["Maine", "New York", "Florida", "California"],
-    correctResponse: "It's always Florida, detective. ALWAYS. The man is more Floridian than Florida Man himself.",
+    correctResponse: "It's always Florida. ALWAYS. The man is more Floridian than Florida Man himself.",
     wrongResponse: "Wrong answer! Here's a hint: it's always the same answer. It's ALWAYS the same answer.",
-    maineResponse: "Our agent drove to the address. It's still a barbershop. The barber says, and I quote: \"Governor who?\""
+    maineResponse: "We drove to the address. It's still a barbershop. The barber says, and I quote: \"Governor who?\""
   },
   {
     clues: [
-      "FINAL REPORT: Subject has been located. He's exactly where you think he is.",
-      "SURVEILLANCE PHOTO: Man in cargo shorts running for Congress in a district he does not appear to live in.",
-      "CLASSIFIED: His mail forwarding address is in a state that starts with 'F' and ends with 'lorida.'"
+      "FINAL CLUE: He's exactly where you think he is.",
+      "PHOTO SPOTTED: Man in cargo shorts running for Congress in a district he does not appear to live in.",
+      "PUBLIC RECORD: His mail forwarding address is in a state that starts with 'F' and ends with 'lorida.'"
     ],
     answer: "Florida",
     locations: ["Maine", "Florida", "Alaska", "Hawaii"],
     correctResponse: "Case closed. Paul LePage was in Florida. Again. Still. Always. Forever.",
     wrongResponse: "It's Florida. It was always Florida. Were you even reading the clues?",
-    maineResponse: "MAINE?! Detective, we have been over this. His Maine address is a BARBERSHOP that also rents CARS. The barber is starting to recognize our agents. This is embarrassing."
+    maineResponse: "MAINE?! We have been over this. His Maine address is a BARBERSHOP that also rents CARS. The barber is starting to recognize us. This is embarrassing."
   }
 ];
 
@@ -471,21 +471,21 @@ let score = 0;
 let maineGuesses = 0;
 let answered = false;
 
-// ─── TITLE SCREEN ───
+// âââ TITLE SCREEN âââ
 function renderTitleScreen() {
   document.getElementById('game').innerHTML = `
     <div class="title-bar">
       <h1>WHERE IN THE WORLD IS<br>PAUL LePAGE?</h1>
-      <div class="sub">MAINE CD-2 CANDIDATE TRACKING DIVISION</div>
+      <div class="sub">MAINE CD-2 RESIDENCY INVESTIGATION UNIT</div>
     </div>
     <div class="globe-bar"></div>
 
     <div class="panel-row">
       <div class="panel narrow">
-        <div class="panel-label">SUSPECT FILE</div>
+        <div class="panel-label">DOSSIER</div>
         <div class="dossier">
-          <div class="wanted-stamp">\u2605 WANTED \u2605</div>
-          <img src="${PORTRAIT_SRC}" class="dossier-img" width="160" height="200" alt="WANTED">
+          <div class="wanted-stamp">\u2605 MISSING FROM MAINE \u2605</div>
+          <img src="${PORTRAIT_SRC}" class="dossier-img" width="160" height="200" alt="Paul LePage">
           <div class="dossier-info">
             NAME: <span class="val">PAUL R. LePAGE</span><br>
             RUNNING FOR: <span class="val">CONGRESS, ME CD-2</span><br>
@@ -499,7 +499,7 @@ function renderTitleScreen() {
         <div class="intel-panel">
           <div class="intro-text">
             THE YEAR IS 2026. FORMER GOVERNOR PAUL LePAGE IS RUNNING FOR CONGRESS IN MAINE'S 2ND DISTRICT. THERE'S JUST ONE PROBLEM &mdash; HE DOESN'T SEEM TO LIVE IN MAINE.<br><br>
-            YOUR MISSION: <span class="hl">TRACK DOWN CONGRESSIONAL CANDIDATE PAUL LePAGE</span> USING CLUES FROM OUR FIELD AGENTS.<br><br>
+            YOUR MISSION: <span class="hl">FIGURE OUT WHERE PAUL LePAGE ACTUALLY LIVES</span> USING CLUES AND PUBLIC RECORDS.<br><br>
             <span class="warn">WARNING:</span> HIS OFFICIAL MAINE RESIDENCE IS ALSO A <span class="warn">BARBERSHOP</span> AND A <span class="warn">CAR RENTAL AGENCY</span>. WE ARE NOT MAKING THIS UP.<br><br>
             DIFFICULTY: <span class="hl">EXTREMELY EASY</span><br>
             <span style="color:#2a7a9e">(HE'S IN FLORIDA. HE'S ALWAYS IN FLORIDA.)</span>
@@ -509,7 +509,7 @@ function renderTitleScreen() {
       <div class="panel map-panel">
         <div class="panel-label">LAST KNOWN LOCATION</div>
         <img src="${FLORIDA_SRC}" class="florida-img" width="220" height="220" alt="Florida">
-        <div class="map-caption">TRACKING SIGNAL DETECTED<br><span class="blink">\u25bc FLORIDA \u25bc</span></div>
+        <div class="map-caption">LAST KNOWN ADDRESS<br><span class="blink">\u25bc FLORIDA \u25bc</span></div>
       </div>
     </div>
 
@@ -527,7 +527,7 @@ function startGame() {
   renderRound();
 }
 
-// ─── GAME ROUND ───
+// âââ GAME ROUND âââ
 function renderRound() {
   answered = false;
   const round = ROUNDS[currentRound];
@@ -544,19 +544,19 @@ function renderRound() {
 
     <div class="panel-row">
       <div class="panel narrow">
-        <div class="panel-label">SUSPECT</div>
+        <div class="panel-label">SUBJECT</div>
         <div class="dossier">
           <img src="${PORTRAIT_SRC}" class="dossier-img" width="150" height="188" alt="Subject">
           <div class="dossier-info">
             NAME: <span class="val">LePAGE, PAUL</span><br>
             SEEKING: <span class="val">ME CD-2 SEAT</span><br>
             IN MAINE: <span class="alert">NO</span><br>
-            STATUS: <span class="alert">AT LARGE</span>
+            STATUS: <span class="alert">NOT IN MAINE</span>
           </div>
         </div>
       </div>
       <div class="panel wide">
-        <div class="panel-label">FIELD INTELLIGENCE \u2014 ROUND ${currentRound + 1}</div>
+        <div class="panel-label">CLUES \u2014 ROUND ${currentRound + 1}</div>
         <div class="intel-panel">
           ${cluesHTML}
         </div>
@@ -565,12 +565,12 @@ function renderRound() {
 
     <div class="panel-row">
       <div class="panel map-panel">
-        <div class="panel-label">TRACKING MAP</div>
+        <div class="panel-label">WHERE IS HE?</div>
         <img src="${FLORIDA_SRC}" class="florida-img" width="200" height="200" alt="Florida">
         <div class="map-caption">SIGNAL STRONG<br>SOMEWHERE WARM...</div>
       </div>
       <div class="panel wide choices-panel" id="answer-area">
-        <div class="panel-label">DEPLOY AGENTS TO</div>
+        <div class="panel-label">WHERE DO YOU THINK HE IS?</div>
         ${buttonsHTML}
       </div>
     </div>
@@ -626,7 +626,7 @@ function nextRound() {
   else renderRound();
 }
 
-// ─── END SCREEN ───
+// âââ END SCREEN âââ
 function renderEndScreen() {
   let rating, ratingColor;
   if (score === 5) { rating = "MASTER DETECTIVE"; ratingColor = "#d4c84a"; }
@@ -636,19 +636,19 @@ function renderEndScreen() {
   let maineComment;
   if (maineGuesses === 0) maineComment = "You never once guessed Maine. Smart. You're already more aware of his location than most of Maine's CD-2 voters.";
   else if (maineGuesses === 1) maineComment = "You guessed Maine once. Understandable \u2014 it IS technically where he's running for office. But you learned.";
-  else if (maineGuesses <= 3) maineComment = `You guessed Maine ${maineGuesses} times. Each time, our agents got another haircut at his address. They're running out of hair.`;
-  else maineComment = `You guessed Maine ${maineGuesses} times. Our agents have now gotten so many haircuts at his listed address that the barber considers them family. The Kia Sorento rental loyalty program has made them Gold Members.`;
+  else if (maineGuesses <= 3) maineComment = `You guessed Maine ${maineGuesses} times. Each time, we checked his address and got another haircut. We're running out of hair.`;
+  else maineComment = `You guessed Maine ${maineGuesses} times. We've now gotten so many haircuts at his listed address that the barber considers us family. The Kia Sorento rental loyalty program has made us Gold Members.`;
 
   document.getElementById('game').innerHTML = `
     <div class="title-bar">
       <h1>CASE CLOSED</h1>
-      <div class="sub">MAINE CD-2 CANDIDATE TRACKING DIVISION</div>
+      <div class="sub">MAINE CD-2 RESIDENCY INVESTIGATION UNIT</div>
     </div>
     <div class="globe-bar"></div>
 
     <div class="panel-row">
       <div class="panel narrow">
-        <div class="panel-label">CASE RESOLVED</div>
+        <div class="panel-label">CASE CLOSED</div>
         <div class="dossier">
           <div class="wanted-stamp" style="color:#1a6b4a;">FOUND</div>
           <img src="${PORTRAIT_SRC}" class="dossier-img" width="160" height="200" alt="FOUND" style="border-color:#1a6b4a; box-shadow: 0 0 10px rgba(26,107,74,0.5);">
@@ -667,7 +667,7 @@ function renderEndScreen() {
           <div class="stat-line">TIMES YOU GUESSED MAINE: <span class="val">${maineGuesses}</span></div>
           <div class="epilogue">${maineComment}</div>
           <div class="epilogue" style="color:#d44a2e; border-color:#8b1a1a;">
-            EPILOGUE: Former Governor LePage was eventually located at his Florida residence, where he has lived for years while running for Maine's CD-2 congressional seat. His official Maine address remains a fully operational barbershop and car rental agency. When reached for comment, the barber said: "Great tipper. When he's here. Which is never."
+            EPILOGUE: Former Governor LePage was confirmed to be at his Florida residence, where he has lived for years while running for Maine's CD-2 congressional seat. His official Maine address remains a fully operational barbershop and car rental agency. When reached for comment, the barber said: "Great tipper. When he's here. Which is never."
           </div>
         </div>
       </div>
@@ -681,7 +681,7 @@ function renderEndScreen() {
     <div class="globe-bar"></div>
     <div class="bottom-bar" style="justify-content:center; gap:24px;">
       <button class="next-btn" onclick="window.scrollTo(0,0); renderTitleScreen()">[ PLAY AGAIN ]</button>
-      <button class="share-btn" onclick="shareGame('I scored ${score}/${ROUNDS.length} tracking down Paul LePage! (He was in Florida. He\\'s always in Florida.) Play it yourself:')">[ SHARE RESULTS ]</button>
+      <button class="share-btn" onclick="shareGame('I scored ${score}/${ROUNDS.length} finding Paul LePage! (He was in Florida. He\\'s always in Florida.) Play it yourself:')">[ SHARE RESULTS ]</button>
     </div>
     <div class="disclaimer">
       A PUBLIC SERVICE GAME. ALL CLUES ARE SATIRICAL.<br>
