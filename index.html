@@ -305,6 +305,18 @@
     text-align: center;
   }
 
+  .paid-for {
+    border: 2px solid #e07040;
+    background: #0b0e2a;
+    color: #ffffff;
+    font-size: 10px;
+    text-align: center;
+    padding: 10px 16px;
+    margin-top: 12px;
+    letter-spacing: 1px;
+    line-height: 1.8;
+  }
+
   .share-btn {
     display: inline-block;
     padding: 14px 28px;
@@ -518,6 +530,7 @@ function renderTitleScreen() {
       <button class="start-btn blink" onclick="startGame()">[ BEGIN INVESTIGATION ]</button>
       <button class="share-btn" onclick="shareGame()">[ SHARE ]</button>
     </div>
+    <div class="paid-for">PAID FOR BY DUNLAP FOR CONGRESS</div>
   `;
 }
 
@@ -581,6 +594,7 @@ function renderRound() {
       <div class="score-item">ROUND: <span class="val">${currentRound + 1}/${ROUNDS.length}</span></div>
       <div class="score-item">MAINE GUESSES: <span class="val">${maineGuesses}</span></div>
     </div>
+    <div class="paid-for">PAID FOR BY DUNLAP FOR CONGRESS</div>
   `;
 }
 
@@ -687,6 +701,7 @@ function renderEndScreen() {
       A PUBLIC SERVICE GAME. ALL CLUES ARE SATIRICAL.<br>
       ANY RESEMBLANCE TO AN ACTUAL CONGRESSIONAL CANDIDATE WHO DOESN'T LIVE IN HIS DISTRICT IS ENTIRELY INTENTIONAL.
     </div>
+    <div class="paid-for">PAID FOR BY DUNLAP FOR CONGRESS</div>
   `;
 }
 
