@@ -471,7 +471,7 @@ const ROUNDS = [
     locations: ["Florida", "Maine", "Texas", "Arizona"],
     correctResponse: "Florida! Three for three! At this point we should just update his Wikipedia page.",
     wrongResponse: "Nope! A state shaped like a gun? Alligators? Come on \u2014 this isn't hard.",
-    maineResponse: "We checked the Edgecomb property. Found a fresh fade and a rental car agreement. No former governor in sight."
+    maineResponse: "We checked the property. Found a fresh fade and a rental car agreement. No former governor in sight."
   },
   {
     clues: [
@@ -606,6 +606,7 @@ function renderRound() {
 
     <div class="globe-bar"></div>
     <div class="bottom-bar">
+      <div class="score-item"><button class="next-btn" onclick="window.scrollTo(0,0); renderTitleScreen()" style="font-size:10px; padding:8px 14px;">[ BACK ]</button></div>
       <div class="score-item">SCORE: <span class="val">${score}/${ROUNDS.length}</span></div>
       <div class="score-item">ROUND: <span class="val">${currentRound + 1}/${ROUNDS.length}</span></div>
       <div class="score-item">MAINE GUESSES: <span class="val">${maineGuesses}</span></div>
