@@ -439,7 +439,7 @@ const FLORIDA_SRC = 'florida.png';
 const ROUNDS = [
   {
     clues: [
-      "PUBLIC RECORDS: LePage spotted buying sunscreen in bulk at a Publix. That's not a Maine thing.",
+      "PUBLIC RECORDS: LePage spotted buying sunscreen in bulk at a Publix Supermarket. That's not a Maine thing.",
       "SOCIAL MEDIA: LePage seen wearing flip-flops in January. Locals did not find this unusual.",
       "OVERHEARD AT A DINER: \"Yeah, the golf course is great this time of year. Every time of year, actually.\""
     ],
@@ -447,7 +447,7 @@ const ROUNDS = [
     locations: ["Maine", "Florida", "New Hampshire", "Massachusetts"],
     correctResponse: "BINGO! He's in Florida. Shocking absolutely no one. Reportedly spotted at an early bird dinner at 4:15 PM.",
     wrongResponse: "Nope. Think sunshine. Think humidity. Think... not Maine.",
-    maineResponse: "HA! Maine?! We checked his listed address and found a barbershop and a Kia rental agency. He was not there."
+    maineResponse: "HA! Maine?! We checked his listed address and found a barbershop and a rental agency. Found good haircuts and a kia sorento, but no Paul LePage."
   },
   {
     clues: [
@@ -457,9 +457,9 @@ const ROUNDS = [
     ],
     answer: "Florida",
     locations: ["Maine", "Florida", "Vermont", "Connecticut"],
-    correctResponse: "That's right \u2014 Florida again. Our man loves the Sunshine State almost as much as he loves not being in his district.",
+    correctResponse: "That's right \u2014 Florida again. Our man loves the Sunshine State almost as much as he loves not being in the 2nd district.",
     wrongResponse: "Wrong! Follow the tan lines. And the complete lack of snow shovels.",
-    maineResponse: "Maine? We checked. The barbershop at his address says he hasn't been in for a trim in months. The car rental side of the building hasn't seen him either."
+    maineResponse: "Checked the address. Got a new haircut \u2014 how's it look? Oh, and still couldn't find LePage."
   },
   {
     clues: [
@@ -526,7 +526,7 @@ function renderTitleScreen() {
     <div class="landing">
       <div class="title-bar">
         <h1>WHERE IN THE WORLD IS<br>PAUL LePAGE?</h1>
-        <div class="sub">A MAINE CD-2 RESIDENCY INVESTIGATION GAME</div>
+        <div class="sub">A RESIDENCY INVESTIGATION GAME</div>
       </div>
       <div class="globe-bar"></div>
 
@@ -536,7 +536,7 @@ function renderTitleScreen() {
 
       <div class="landing-desc">
         FORMER GOVERNOR <span class="hl">PAUL LePAGE</span> IS RUNNING FOR CONGRESS IN <span class="hl">MAINE'S 2ND DISTRICT</span>. THERE'S JUST ONE PROBLEM &mdash; <span class="warn">HE DOESN'T SEEM TO LIVE IN MAINE.</span><br><br>
-        HIS OFFICIAL MAINE ADDRESS IS ALSO A <span class="warn">BARBERSHOP</span> AND A <span class="warn">CAR RENTAL AGENCY</span>. WE ARE NOT MAKING THIS UP.<br><br>
+        AS REPORTED IN THE PRESS HERALD, HIS PUBLIC MAINE ADDRESS IS ALSO A <span class="warn">BARBERSHOP</span> AND A <span class="warn">CAR RENTAL AGENCY</span>. NO WE ARE NOT MAKING THIS UP.<br><br>
         YOUR MISSION: USE PUBLIC RECORDS AND CLUES TO FIGURE OUT WHERE HE ACTUALLY LIVES. <span class="dim">(SPOILER: IT'S NOT MAINE.)</span>
       </div>
 
@@ -665,9 +665,9 @@ function renderEndScreen() {
 
   let maineComment;
   if (maineGuesses === 0) maineComment = "You never once guessed Maine. Smart. You're already more aware of his location than most of Maine's CD-2 voters.";
-  else if (maineGuesses === 1) maineComment = "You guessed Maine once. Understandable \u2014 it IS technically where he's running for office. But you learned.";
+  else if (maineGuesses === 1) maineComment = "You guessed Maine once. But you learned quick.";
   else if (maineGuesses <= 3) maineComment = `You guessed Maine ${maineGuesses} times. Each time, we checked his address and got another haircut. We're running out of hair.`;
-  else maineComment = `You guessed Maine ${maineGuesses} times. We've now gotten so many haircuts at his listed address that the barber considers us family. The Kia Sorento rental loyalty program has made us Gold Members.`;
+  else maineComment = `You guessed Maine ${maineGuesses} times. We've now gotten so many haircuts at his listed address that the barber considers us family. The rental car agency made us sign up for their loyalty program. We're Gold Members so it wasn't a total waste.`;
 
   document.getElementById('game').innerHTML = `
     <div class="title-bar">
