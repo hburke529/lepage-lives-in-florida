@@ -413,9 +413,9 @@
   @media (max-width: 800px) {
     html { font-size: 15px; }
     #game { padding: 6px; }
-    .panel-row { flex-direction: column; }
-    .panel.narrow, .panel.map-panel { flex: unset; }
-    .panel { padding: 12px 10px; }
+    .panel-row { flex-direction: column; align-items: center; }
+    .panel.narrow, .panel.map-panel { flex: unset; width: 100%; max-width: 500px; }
+    .panel { padding: 12px 10px; width: 100%; max-width: 500px; }
     .title-bar h1 { font-size: 31px; line-height: 1.7; }
     .title-bar .sub { font-size: 14px; }
     .clue-text { font-size: 11px; line-height: 2.2; }
