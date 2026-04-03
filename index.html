@@ -435,6 +435,7 @@
 <script>
 const PORTRAIT_SRC = 'portrait.png';
 const FLORIDA_SRC = 'florida.png';
+const FLORIDA_ROUNDS = ['florida1.png', 'florida2.png', 'florida3.png', 'florida4.png', 'florida5.png'];
 
 const ROUNDS = [
   {
@@ -595,7 +596,7 @@ function renderRound() {
     <div class="panel-row">
       <div class="panel map-panel">
         <div class="panel-label">WHERE IS HE?</div>
-        <img src="${FLORIDA_SRC}" class="florida-img" width="200" height="200" alt="Florida">
+        <img src="${FLORIDA_ROUNDS[currentRound]}" class="florida-img" width="200" height="200" alt="Florida">
         <div class="map-caption">SIGNAL STRONG<br>SOMEWHERE WARM...</div>
       </div>
       <div class="panel wide choices-panel" id="answer-area">
@@ -704,7 +705,7 @@ function renderEndScreen() {
       </div>
       <div class="panel map-panel">
         <div class="panel-label">FINAL POSITION</div>
-        <img src="${FLORIDA_SRC}" class="florida-img" width="220" height="220" alt="Florida">
+        <img src="${FLORIDA_ROUNDS[4]}" class="florida-img" width="220" height="220" alt="Florida">
         <div class="map-caption">PERMANENTLY LOCATED<br>IN FLORIDA</div>
       </div>
     </div>
