@@ -82,7 +82,7 @@
 
   .panel.narrow { flex: 0 0 250px; }
   .panel.wide { flex: 1; }
-  .panel.map-panel { flex: 0 0 280px; min-height: 240px; }
+  .panel.map-panel { flex: 0 0 280px; min-height: 300px; align-self: flex-start; }
 
   .panel-label {
     position: absolute;
@@ -603,6 +603,7 @@ function renderRound() {
       <div class="panel wide choices-panel" id="answer-area">
         <div class="panel-label">WHERE DO YOU THINK HE IS?</div>
         ${buttonsHTML}
+        <div id="result-area"></div>
       </div>
     </div>
 
@@ -642,9 +643,9 @@ function guess(location, btn) {
     resultHTML = `<div class="result-text wrong">${round.wrongResponse}</div>`;
   }
 
-  const answerArea = document.getElementById('answer-area');
+  const resultArea = document.getElementById('result-area');
   const nextLabel = currentRound < ROUNDS.length - 1 ? '[ NEXT LEAD ]' : '[ CLOSE CASE ]';
-  answerArea.innerHTML += `
+  resultArea.innerHTML = `
     ${resultHTML}
     <div style="text-align:center; margin-top:10px;">
       <button class="next-btn" onclick="nextRound()">${nextLabel}</button>
