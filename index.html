@@ -460,6 +460,8 @@
 
 <script>
 const PORTRAIT_SRC = 'portrait.png';
+const ROUND_PORTRAITS = ['portrait2.png', 'portrait3.png', 'portrait4.png', 'portrait5.png', 'portrait6.png'];
+const END_PORTRAIT = 'portrait7.png';
 const FLORIDA_SRC = 'florida.png';
 const FLORIDA_ROUNDS = ['florida1.png', 'florida2.png', 'florida3.png', 'florida4.png', 'florida5.png'];
 
@@ -603,7 +605,7 @@ function renderRound() {
       <div class="panel narrow">
         <div class="panel-label">SUBJECT</div>
         <div class="dossier">
-          <img src="${PORTRAIT_SRC}" class="dossier-img" width="150" height="188" alt="Subject">
+          <img src="${ROUND_PORTRAITS[currentRound]}" class="dossier-img" width="150" height="188" alt="Subject">
           <div class="dossier-info">
             NAME: <span class="val">LePAGE, PAUL</span><br>
             SEEKING: <span class="val">ME CD-2 SEAT</span><br>
@@ -711,7 +713,7 @@ function renderEndScreen() {
         <div class="panel-label">CASE CLOSED</div>
         <div class="dossier">
           <div class="wanted-stamp" style="color:#1a6b4a;">FOUND</div>
-          <img src="${PORTRAIT_SRC}" class="dossier-img" width="160" height="200" alt="FOUND" style="border-color:#1a6b4a; box-shadow: 0 0 10px rgba(26,107,74,0.5);">
+          <img src="${END_PORTRAIT}" class="dossier-img" width="160" height="200" alt="FOUND" style="border-color:#1a6b4a; box-shadow: 0 0 10px rgba(26,107,74,0.5);">
           <div class="dossier-info">
             NAME: <span class="val">LePAGE, PAUL</span><br>
             LOCATED IN: <span class="val">FLORIDA</span><br>
