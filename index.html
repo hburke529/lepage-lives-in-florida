@@ -551,8 +551,29 @@ let score = 0;
 let maineGuesses = 0;
 let answered = false;
 
+// ─── STATE PERSISTENCE ───
+function saveState(screen) {
+  try {
+    sessionStorage.setItem('lepage_state', JSON.stringify({
+      screen: screen,
+      currentRound: currentRound,
+      score: score,
+      maineGuesses: maineGuesses
+    }));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const saved = sessionStorage.getItem('lepage_state');
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return null;
+}
+
 // ─── LANDING PAGE ───
 function renderTitleScreen() {
+  saveState('title');
   document.getElementById('game').innerHTML = `
     <div class="landing">
       <div class="title-bar">
@@ -591,6 +612,7 @@ function startGame() {
 // ─── GAME ROUND ───
 function renderRound() {
   answered = false;
+  saveState('round');
   const round = ROUNDS[currentRound];
   const cluesHTML = round.clues.map(c => `<div class="clue-text"><span class="bullet">\u25ba</span> ${c}</div>`).join('');
   const buttonsHTML = round.locations.map(loc =>
@@ -692,6 +714,7 @@ function nextRound() {
 
 // ─── END SCREEN ───
 function renderEndScreen() {
+  saveState('end');
   let rating, ratingColor;
   if (score === 5) { rating = "MASTER DETECTIVE"; ratingColor = "#d4c84a"; }
   else if (score >= 3) { rating = "COMPETENT GUMSHOE"; ratingColor = "#5ab8b8"; }
@@ -715,7 +738,7 @@ function renderEndScreen() {
         <div class="panel-label">CASE CLOSED</div>
         <div class="dossier">
           <div class="wanted-stamp" style="color:#1a6b4a;">FOUND</div>
-          <img src="${END_PORTRAIT}" class="dossier-img" width="320" height="400" alt="FOUND" style="border-color:#1a6b4a; box-shadow: 0 0 10px rgba(26,107,74,0.5); display:block; margin:0 auto;">
+          <img src="${END_PORTRAIT}" class="dossier-img" width="400" height="500" alt="FOUND" style="border-color:#1a6b4a; box-shadow: 0 0 10px rgba(26,107,74,0.5); display:block; margin:0 auto;">
           <div class="dossier-info">
             NAME: <span class="val">LePAGE, PAUL</span><br>
             LOCATED IN: <span class="val">FLORIDA</span><br>
@@ -731,7 +754,7 @@ function renderEndScreen() {
           <div class="stat-line">TIMES YOU GUESSED MAINE: <span class="val">${maineGuesses}</span></div>
           <div class="epilogue">${maineComment}</div>
           <div class="epilogue" style="color:#d44a2e; border-color:#8b1a1a;">
-            EPILOGUE: Former Governor LePage was confirmed to be at his Florida residence, where he has lived for years while running for Maine's CD-2 congressional seat. His official Maine address remains a fully operational barbershop and car rental agency. When reached for comment, the barber said: "Great tipper. When he's here. Which is never."
+            EPILOGUE: Subject was last seen heading south on I-95, driving past the "Welcome to Florida" sign at considerable speed. Overheard muttering: "I gave it another shot and &mdash; blast &mdash; they figured it out again. Can't a man run for Congress in a state he doesn't live in anymore?!" Subject was last spotted pulling into a Publix parking lot in Boca Raton, where he reportedly purchased a rotisserie chicken and a "Florida Man" bumper sticker. Case officially closed. His official Maine address remains a fully operational barbershop and car rental agency. The barber has started renting out his parking spot.
           </div>
         </div>
       </div>
@@ -755,7 +778,18 @@ function renderEndScreen() {
   `;
 }
 
-renderTitleScreen();
+// Restore state on load or start fresh
+const savedState = loadState();
+if (savedState && savedState.screen !== 'title') {
+  currentRound = savedState.currentRound;
+  score = savedState.score;
+  maineGuesses = savedState.maineGuesses;
+  if (savedState.screen === 'round') renderRound();
+  else if (savedState.screen === 'end') renderEndScreen();
+  else renderTitleScreen();
+} else {
+  renderTitleScreen();
+}
 </script>
 </body>
 </html>
