@@ -505,7 +505,7 @@ const ROUNDS = [
   {
     clues: [
       "RUMOR MILL: \"The candidate sends his regards from a state shaped like a gun.\"",
-      "EYEWITNESS: LePage seen arguing with an alligator about welfare policy.",
+      "EYEWITNESS: LePage seen arguing with an alligator about tax policy.",
       "FUN FACT: His phone pinged near a place called 'The Villages.' He fit right in."
     ],
     answer: "Florida",
@@ -731,7 +731,7 @@ function renderEndScreen() {
   else { rating = "MAYBE TRY GOOGLE NEXT TIME"; ratingColor = "#d44a2e"; }
 
   let maineComment;
-  if (maineGuesses === 0) maineComment = "You never once guessed Maine. Smart. You're already more aware of his location than most of Maine's CD-2 voters.";
+  if (maineGuesses === 0) maineComment = "You never once guessed Maine. Smart. You're already more aware of his location than his misleading campaign would expect.";
   else if (maineGuesses === 1) maineComment = "You guessed Maine once. But you learned quick.";
   else if (maineGuesses <= 3) maineComment = `You guessed Maine ${maineGuesses} times. Each time, we checked his address and got another haircut. We're running out of hair.`;
   else maineComment = `You guessed Maine ${maineGuesses} times. We've now gotten so many haircuts at his listed address that the barber considers us family. The rental car agency made us sign up for their loyalty program. We're Gold Members so it wasn't a total waste.`;
